@@ -1,48 +1,47 @@
 class Solution {
-    static class Cell {
-        int x, y, h;
-        Cell(int x, int y, int h) {
-            this.x = x;
-            this.y = y;
-            this.h = h;
+    static class Cell{
+        int x,y,h;
+        Cell(int x,int y,int h){
+            this.x=x;
+            this.y=y;
+            this.h=h;
         }
     }
     public int trapRainWater(int[][] heightMap) {
-        int m = heightMap.length;
-        if (m == 0) return 0;
-        int n = heightMap[0].length;
-        if (n == 0) return 0;
-
-        boolean[][] visited = new boolean[m][n];
-        PriorityQueue<Cell> pq = new PriorityQueue<>(Comparator.comparingInt(c -> c.h));
-        for (int i = 0; i < m; i++) {
-            pq.add(new Cell(i, 0, heightMap[i][0]));
-            pq.add(new Cell(i, n - 1, heightMap[i][n - 1]));
-            visited[i][0] = true;
-            visited[i][n - 1] = true;
+        int m=heightMap.length;
+        int n=heightMap[0].length;
+        if(m==0 || n==0){
+            return 0;
         }
-        for (int j = 1; j < n - 1; j++) {
-            pq.add(new Cell(0, j, heightMap[0][j]));
-            pq.add(new Cell(m - 1, j, heightMap[m - 1][j]));
-            visited[0][j] = true;
-            visited[m - 1][j] = true;
+        PriorityQueue<Cell> pq=new PriorityQueue<>(Comparator.comparingInt(c -> c.h)); 
+        boolean[][] vis=new boolean[m][n];
+        for(int i=0;i<m;i++){
+            pq.offer(new Cell(i,0,heightMap[i][0]));
+            pq.offer(new Cell(i,n-1,heightMap[i][n-1]));
+            vis[i][0]=true;
+            vis[i][n-1]=true;
         }
-        int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
-        int res = 0;
-        while (!pq.isEmpty()) {
-            Cell cell = pq.poll();
-            for (int[] dir : dirs) {
-                int nx = cell.x + dir[0];
-                int ny = cell.y + dir[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
-                    visited[nx][ny] = true;
-                    int trapped = Math.max(0, cell.h - heightMap[nx][ny]);
-                    res += trapped;
-                    pq.add(new Cell(nx, ny, Math.max(heightMap[nx][ny], cell.h)));
+        for(int i=0;i<n;i++){
+            pq.offer(new Cell(0,i,heightMap[0][i]));
+            pq.offer(new Cell(m-1,i,heightMap[m-1][i]));
+            vis[0][i]=true;
+            vis[m-1][i]=true;
+        }
+        int res=0;
+        int[][] dir={{-1,0},{0,-1},{1,0},{0,1}};
+        while(!pq.isEmpty()){
+            Cell cell=pq.remove();
+            for(int[] p : dir){
+                int r=cell.x+p[0];
+                int c=cell.y+p[1];
+                if(r>=0 && c>=0 && r<m && c<n && !vis[r][c]){
+                    vis[r][c]=true;
+                    int trap=Math.max(0,cell.h-heightMap[r][c]);
+                    res+=trap;
+                    pq.offer(new Cell(r,c,Math.max(cell.h,heightMap[r][c])));
                 }
             }
         }
-
         return res;
     }
 }
