@@ -9,9 +9,7 @@ class Solution {
             }else{
                 v=height[s]*(e-s);
             }
-            if(v>w){
-                w=v;
-            }
+            w=Math.max(v,w);
             if(height[s]>height[e]){
                 e--;
             }else{
