@@ -1,22 +1,24 @@
 class Solution {
     public int trap(int[] nums) {
+        int start=0,end=nums.length-1;
         int water=0;
-        int lmax=0,rmax=0,l=0,r=nums.length-1;
-        while(l<=r){
-            if(nums[l]<nums[r]){
-                if(nums[l]>lmax){
-                    lmax=nums[l];
+        int lpos=0;
+        int rpos=0;
+        while(start<=end){
+            if(nums[start]<nums[end]){
+                if(nums[start]>lpos){
+                    lpos=nums[start];
                 }else{
-                    water+=lmax-nums[l];
+                    water+=lpos-nums[start];
                 }
-                l++;
+                start++;
             }else{
-                if(nums[r]>rmax){
-                    rmax=nums[r];
+                if(nums[end]>rpos){
+                    rpos=nums[end];
                 }else{
-                    water+=rmax-nums[r];
+                    water+=rpos-nums[end];
                 }
-                r--;
+                end--;
             }
         }
         return water;
