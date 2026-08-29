@@ -1,9 +1,1 @@
-with cte as(
-    select
-    *,
-    dense_rank() over (order by salary desc) as dr,
-    row_number() over (partition by salary order by salary desc) as rn
-    from Employee
-)
-select
-coalesce((select salary from cte where dr=2 and rn=1),null) as SecondHighestSalary;
+select (select distinct salary  from Employee order by salary desc limit 1 offset 1) as SecondHighestSalary
