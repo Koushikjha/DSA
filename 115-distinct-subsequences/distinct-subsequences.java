@@ -3,11 +3,9 @@ class Solution {
     int[] charS;
     int ans=0;
     int x;
-    Set<String> check;
     String t;
     Integer[][] memo;
     public int numDistinct(String s, String p) {
-        check=new HashSet<>();
         t=p.toLowerCase();
         s=s.toLowerCase();
         charT=new int[26];
@@ -23,12 +21,7 @@ class Solution {
     }
     public int find(String s,String p,int n,String mask,int i){
         if(n==0){
-            if(!check.contains(mask)){
-                
-                check.add(mask);
-                return 1;
-            }
-            return 0;
+            return 1;
         }
         if(i==s.length()){
             return 0;
