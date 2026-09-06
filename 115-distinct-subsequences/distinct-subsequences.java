@@ -32,10 +32,8 @@ class Solution {
         char c=s.charAt(i);
         int a=0;
         int b=0;
-        if(c==t.charAt(x-n) && charS[c-'a']<charT[c-'a'] ){
-            charS[c-'a']++;
+        if(c==t.charAt(x-n) ){
             a=find(s,p+c,n-1,mask+" "+i,i+1);
-            charS[c-'a']--;
         }
         b=find(s,p,n,mask,i+1);
         return memo[n][i]=a+b;
