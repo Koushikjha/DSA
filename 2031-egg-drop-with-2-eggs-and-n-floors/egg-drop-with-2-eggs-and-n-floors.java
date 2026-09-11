@@ -1,24 +1,27 @@
 class Solution {
+    Integer[][] dp;
     public int twoEggDrop(int n) {
-        int[][] dp=new int[n+1][3];
-        for(int i=0;i<=n;i++){
-            Arrays.fill(dp[i],-1);
-        }
-        return find(n,2,dp);
+        dp=new Integer[n+1][3];
+        return find(n,2);
     }
-    public int find(int f,int e,int[][] dp){
-        if(f==0 || f==1 || e==1){
+    public int find(int f,int e){
+        if(f==1 || f==0){
             return f;
         }
-        if(dp[f][e]!=-1){
+        if(e==1){
+            return f;
+        }
+        if(dp[f][e]!=null){
             return dp[f][e];
         }
+    
         int ans=Integer.MAX_VALUE;
-        for(int i=1;i<=f;i++){
-            int s=1+Math.max(find(i-1,e-1,dp),find(f-i,e,dp));
-            ans=Math.min(s,ans);
+        for(int x=1;x<=f;x++){
+            int brk=find(x-1,e-1);
+            int surv=find(f-x,e);
+            int worst=1+Math.max(brk,surv);
+            ans=Math.min(ans,worst);
         }
         return dp[f][e]=ans;
-
     }
 }
